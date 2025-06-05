@@ -114,37 +114,69 @@ If you decided to change the styling, please note the following:
 * You'll need to set properties in DocumentStyles to match your style names
 * Be careful when defining styles for lists - they're really tricky in MS Word and quite easy to mess. 
 
-### Converti Markdown in DOCX direttamente in memoria
+### Convert Markdown to DOCX Directly In-Memory
 
-Se vuoi ottenere un file DOCX direttamente in memoria (ad esempio per inviarlo come risposta HTTP o salvarlo senza scrivere su disco), puoi usare il metodo helper:
+If you need to generate a DOCX file in memory (for example, to return it in an HTTP response or save it without writing to disk), you can use the helper method:
 
 ```csharp
 using Markdig.Renderers.Docx;
-using System.IO;
 
-// Converte il markdown in un MemoryStream che contiene il DOCX
-var docxStream = MarkdownExtensions.ToDocxStream("# Titolo\n\nTesto di esempio");
+// Basic conversion: markdown → MemoryStream containing DOCX
+var docxStream = MarkdownExtensions.ToDocxStream("# Title\n\nSample text");
 
-// Ora puoi salvare il file dove vuoi, ad esempio:
+// Optionally, save the stream to a file
 using (var file = File.Create("output.docx"))
 {
     docxStream.CopyTo(file);
 }
 ```
 
-Puoi anche opzionalmente passare i tuoi `DocumentStyles` o una pipeline personalizzata:
+#### Available Parameters
+
+The method accepts up to three parameters:
+
+- `string markdown`: **Required.** The markdown text to convert.
+- `DocumentStyles? styles`: **Optional.** A custom styles object to apply to the document (you can use `new DocumentStyles()` and override properties, e.g. to change heading style names).
+- `MarkdownPipeline? pipeline`: **Optional.** A custom Markdig pipeline to enable extra extensions or parsing behavior.
+
+#### Advanced Example: Custom Styles and Pipeline
 
 ```csharp
 using Markdig;
 using Markdig.Renderers.Docx;
 
-// Stili personalizzati e/o pipeline personalizzata
-var styles = new DocumentStyles();
-// Ad esempio: styles.Heading1 = "MyCustomHeading1";
+// Define custom styles if needed
+var styles = new DocumentStyles
+{
+    Heading1 = "MyCustomHeading1",
+    Paragraph = "MyCustomParagraph"
+    // ...other overrides as needed
+};
 
+// Build a custom Markdig pipeline with extra extensions
 var pipeline = new MarkdownPipelineBuilder()
     .UseEmphasisExtras()
+    .UsePipeTables()
     .Build();
 
-var docxStream = MarkdownExtensions.ToDocxStream("# Titolo", styles, pipeline);
+// Conversion with optional parameters
+var docxStream = MarkdownExtensions.ToDocxStream(
+    "# Custom Title\n\nSample text",
+    styles,
+    pipeline
+);
 ```
+
+> ℹ️ If you don't provide `DocumentStyles` or `MarkdownPipeline`, default styles and a basic pipeline with extra emphasis support will be used.
+
+#### Quick Reference
+
+```csharp
+public static MemoryStream ToDocxStream(
+    string markdown,
+    DocumentStyles? styles = null,
+    MarkdownPipeline? pipeline = null
+)
+```
+
+This method creates an in-memory `.docx` file using the standard template included with the library. You can handle the resulting stream as you prefer (save, send via HTTP, etc).
