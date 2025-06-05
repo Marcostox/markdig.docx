@@ -24,7 +24,7 @@ public static class MarkdownExtensions
         pipeline ??= new MarkdownPipelineBuilder().UseEmphasisExtras().Build();
 
         // Ottieni documento + stream associato
-        var (document, stream) = DocxTemplateHelper.GetStandardTemplate();
+        var (document, stream) = DocxTemplateHelper.GetStandardTemplate(true);
 
         using(document)
         {
