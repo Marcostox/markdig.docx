@@ -7,13 +7,14 @@ using Microsoft.Extensions.Logging.Abstractions;
 public static class MarkdownExtensions
 {
     /// <summary>
-    /// Converte una stringa markdown in un DOCX in memoria, restituendo un MemoryStream.
-    /// Il template standard e gli stili standard vengono usati se non specificati.
+    /// Converts a Markdown string into an in-memory DOCX document and returns a <see cref="MemoryStream"/> containing the result.
+    /// If not specified, default document styles and a standard Markdown pipeline are used.
+    /// The DOCX document is generated from a standard in-memory template.
     /// </summary>
-    /// <param name="markdown">Il testo Markdown da convertire</param>
-    /// <param name="styles">Gli stili opzionali da applicare (DocumentStyles)</param>
-    /// <param name="pipeline">La pipeline opzionale di Markdig</param>
-    /// <returns>Un MemoryStream contenente il file DOCX generato</returns>
+    /// <param name="markdown">The Markdown text to convert.</param>
+    /// <param name="styles">Optional styles to apply to the document (instance of <see cref="DocumentStyles"/>).</param>
+    /// <param name="pipeline">Optional Markdig pipeline to use for Markdown parsing.</param>
+    /// <returns>A <see cref="MemoryStream"/> containing the generated DOCX file.</returns>
     public static MemoryStream ToDocxStream(
     string markdown,
     DocumentStyles? styles = null,
