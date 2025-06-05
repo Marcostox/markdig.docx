@@ -113,3 +113,38 @@ It is recommended just stick to these styles in your own documents (just copy-pa
 If you decided to change the styling, please note the following:
 * You'll need to set properties in DocumentStyles to match your style names
 * Be careful when defining styles for lists - they're really tricky in MS Word and quite easy to mess. 
+
+### Converti Markdown in DOCX direttamente in memoria
+
+Se vuoi ottenere un file DOCX direttamente in memoria (ad esempio per inviarlo come risposta HTTP o salvarlo senza scrivere su disco), puoi usare il metodo helper:
+
+```csharp
+using Markdig.Renderers.Docx;
+using System.IO;
+
+// Converte il markdown in un MemoryStream che contiene il DOCX
+var docxStream = MarkdownExtensions.ToDocxStream("# Titolo\n\nTesto di esempio");
+
+// Ora puoi salvare il file dove vuoi, ad esempio:
+using (var file = File.Create("output.docx"))
+{
+    docxStream.CopyTo(file);
+}
+```
+
+Puoi anche opzionalmente passare i tuoi `DocumentStyles` o una pipeline personalizzata:
+
+```csharp
+using Markdig;
+using Markdig.Renderers.Docx;
+
+// Stili personalizzati e/o pipeline personalizzata
+var styles = new DocumentStyles();
+// Ad esempio: styles.Heading1 = "MyCustomHeading1";
+
+var pipeline = new MarkdownPipelineBuilder()
+    .UseEmphasisExtras()
+    .Build();
+
+var docxStream = MarkdownExtensions.ToDocxStream("# Titolo", styles, pipeline);
+```
