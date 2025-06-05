@@ -15,35 +15,23 @@ public static class MarkdownExtensions
     /// <param name="pipeline">La pipeline opzionale di Markdig</param>
     /// <returns>Un MemoryStream contenente il file DOCX generato</returns>
     public static MemoryStream ToDocxStream(
-    string markdown, // Removed 'this Markdown _' to fix CS0721
+    string markdown,
     DocumentStyles? styles = null,
     MarkdownPipeline? pipeline = null)
     {
-        // Usa il template standard (già su MemoryStream)
-        var document = DocxTemplateHelper.Standard;
         styles ??= new DocumentStyles();
-
-        var renderer = new DocxDocumentRenderer(document,styles,NullLogger<DocxDocumentRenderer>.Instance);
         pipeline ??= new MarkdownPipelineBuilder().UseEmphasisExtras().Build();
 
-        // Renderizza il markdown
-        Markdown.Convert(markdown,renderer,pipeline);
+        // Ottieni documento + stream associato
+        var (document, stream) = DocxTemplateHelper.GetStandardTemplate();
 
-        // Ottieni lo stream sottostante; flush e chiudi il documento prima
-        var stream = document.MainDocumentPart?.GetStream();
-        if(stream == null)
+        using(document)
         {
-            throw new InvalidOperationException("MainDocumentPart stream is null.");
+            var renderer = new DocxDocumentRenderer(document,styles,NullLogger<DocxDocumentRenderer>.Instance);
+            Markdown.Convert(markdown,renderer,pipeline);
         }
 
-        if(stream is not MemoryStream ms)
-        {
-            throw new InvalidCastException("The stream is not a MemoryStream.");
-        }
-
-        document.Close();
-
-        ms.Position = 0; // resetta per la lettura
-        return ms;
+        stream.Position = 0;
+        return stream;
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
 
 namespace Markdig.Renderers.Docx;
 
@@ -13,6 +15,35 @@ public class DocxTemplateHelper
             var templateResource = "Markdig.Renderers.Docx.Resources.markdown-template.docx";
             return LoadFromResource(templateResource, true);
         }
+    }
+
+    public static (WordprocessingDocument Document, MemoryStream Stream) GetStandardTemplate(bool clean = false)
+    {
+        var templateResource = "Markdig.Renderers.Docx.Resources.markdown-template.docx";
+        var stream = Assembly.GetExecutingAssembly()
+            .GetManifestResourceStream(templateResource);
+
+        if(stream == null)
+        {
+            stream = Assembly.GetCallingAssembly().GetManifestResourceStream(templateResource);
+        }
+
+        if(stream == null)
+        {
+            throw new FileNotFoundException($"Failed to load resource from {templateResource}");
+        }
+
+        var ms = new MemoryStream();
+        stream.CopyTo(ms);
+
+        var doc = WordprocessingDocument.Open(ms, true); // apri in modalità scrittura
+
+        if(clean)
+        {
+            CleanContents(doc);
+        }
+
+        return (doc, ms);
     }
 
     public static WordprocessingDocument LoadFromResource(string templateResource, bool clean = false)

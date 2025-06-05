@@ -7,14 +7,14 @@
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>Markdig.Renderers.Docx</Title>
-        <Authors>morincer</Authors>
-        <Description>A docx renderer allows outputing Markdown-formatted text into Microsoft Word .docx documents </Description>
-        <PackageProjectUrl>https://github.com/morincer/markdig.docx</PackageProjectUrl>
-        <PackageLicenseUrl>https://github.com/morincer/markdig.docx/blob/main/LICENSE</PackageLicenseUrl>
-        <RepositoryUrl>https://github.com/morincer/markdig.docx</RepositoryUrl>
+        <Authors>Marcostox</Authors>
+        <Description>A docx renderer allows outputing Markdown-formatted text into Microsoft Word .docx documents fork by Marcostox </Description>
+        <PackageProjectUrl>https://github.com/Marcostox/markdig.docx</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Marcostox/markdig.docx/blob/main/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/Marcostox/markdig.docx</RepositoryUrl>
         <PackageTags>Markdig Docx Word</PackageTags>
-        <PackageId>Morincer.Markdig.Renderers.Docx</PackageId>
-        <Version>1.0.1</Version>
+        <PackageId>Marcostox.Markdig.Renderers.Docx</PackageId>
+        <Version>1.0.3</Version>
     </PropertyGroup>
 
     <ItemGroup>
