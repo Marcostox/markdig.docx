@@ -1,7 +1,7 @@
 # Markdig-DocX
 
-[![build](https://github.com/morincer/markdig.docx/actions/workflows/dotnet.yml/badge.svg)](https://github.com/morincer/markdig.docx/actions/workflows/dotnet.yml)
-[![Nuget](https://img.shields.io/nuget/v/Morincer.Markdig.Renderers.Docx)](https://www.nuget.org/packages/Morincer.Markdig.Renderers.Docx/)
+[![build](https://github.com/Marcostox/markdig.docx/actions/workflows/dotnet.yml/badge.svg)](https://github.com/Marcostox/markdig.docx/actions/workflows/dotnet.yml)
+[![Nuget](https://img.shields.io/nuget/v/Marcostox.Markdig.Renderers.Docx)](https://www.nuget.org/packages/Morincer.Markdig.Renderers.Docx/)
 
 A Docx renderer for the excelent [Markdig](https://github.com/xoofx/markdig) parser.
 
@@ -39,7 +39,7 @@ So you transform something like [this markdown](./src/Markdig.Renderers.Docx.Tes
 Fetch from NuGet.
 
 ```bash
-Install-Package Morincer.Markdig.Renderers.Docx 
+Install-Package Marcostox.Markdig.Renderers.Docx 
 ```
 
 ## How to Use
